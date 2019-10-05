@@ -1,10 +1,16 @@
-# pycarbon
+## pycarbon: AI framework integration for Apache CarbonData
 
-Optimized data access for AI based on CarbonData files, and we can use pycarbon lib to read carbondata, also prepare training data for different computing framework, e.g. Tensorflow, Pytorch, Mxnet. 
+Supported AI framework:
+- TensorFlow
+- pytorch
+- mxnet
+- pyspark
+
+By using pyarbon, data access from AI framework is accelerated up to 100X. 
 
 ## pycarbon install
 
-$ git clone https://github.com/HuaweiBigData/pycarbon.git
+$ git clone https://github.com/carbonlake/pycarbon.git
 
 $ cd pycarbon
 
