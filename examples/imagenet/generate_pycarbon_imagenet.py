@@ -123,7 +123,7 @@ def imagenet_directory_to_pycarbon_dataset(imagenet_path, output_url, spark_mast
   BLOCKLET_SIZE_MB = 256
   with materialize_dataset_carbon(spark, output_url, ImagenetSchema, BLOCKLET_SIZE_MB):
     # list of [(nXXXX, 'noun-text'), ...]
-    noun_id_text_list = map(lambda noun_id: (noun_id, noun_id_to_text[noun_id]), noun_ids)
+    noun_id_text_list = list(map(lambda noun_id: (noun_id, noun_id_to_text[noun_id]), noun_ids))
 
     # rdd of [(nXXXX, 'noun-text', path), ...]
     noun_id_text_image_path_rdd = sc.parallelize(noun_id_text_list, min(len(noun_ids) / 10 + 1, 10000)) \
@@ -135,7 +135,7 @@ def imagenet_directory_to_pycarbon_dataset(imagenet_path, output_url, spark_mast
       .map(lambda id_word_image_path:
            {ImagenetSchema.noun_id.name: id_word_image_path[0],
             ImagenetSchema.text.name: id_word_image_path[1],
-            ImagenetSchema.image.name: cv2.imread(id_word_image_path[2])})
+            ImagenetSchema.image.name: cv2.resize(cv2.imread(id_word_image_path[2]), (224, 224), cv2.INTER_CUBIC)})
 
     # Convert to pyspark.sql.Row
     sql_rows_rdd = noun_id_text_image_rdd.map(lambda r: dict_to_spark_row(ImagenetSchema, r))

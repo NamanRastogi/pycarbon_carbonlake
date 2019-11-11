@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package resnet50_prediction;
+
+service ImageLabelPrediction {
+    rpc get_prediction(Image) returns (Label);
+}
+
+message Image {
+    string request_id = 1;
+    bytes image = 2;
+}
+
+message Label {
+    string response_id = 1;
+    string label = 2;
+}
+
+/*
+Compile this using
+
+$ pip3 install grpcio-tools
+$ cd directory/to.pycarbon
+$ python3 -m grpc_tools.protoc --proto_path=./ --python_out=./ --grpc_python_out=./ ./examples/imagenet/resnet50_prediction.proto
+*/

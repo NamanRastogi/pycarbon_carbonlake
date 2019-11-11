@@ -14,7 +14,7 @@
 import os
 
 import pyarrow as pa
-from pyarrow.filesystem import (_get_fs_from_path)
+from pyarrow.filesystem import resolve_filesystem_and_path
 from pyarrow.filesystem import (_ensure_filesystem)
 from pyarrow.parquet import ParquetFile
 from pycarbon.pysdk.CarbonReader import CarbonReader
@@ -39,7 +39,7 @@ class CarbonDataset(object):
       a_path = self.path
       if isinstance(a_path, list):
         a_path = a_path[0]
-      self.fs = _get_fs_from_path(a_path)
+      self.fs = resolve_filesystem_and_path(a_path)[0]
     else:
       self.fs = _ensure_filesystem(filesystem)
 
